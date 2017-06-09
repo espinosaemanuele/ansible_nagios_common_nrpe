@@ -1,0 +1,44 @@
+---
+# file: tasks/main.yml
+
+- include: multi_os.yml
+
+- name: install packages
+  package:
+    name: "{{ common_packages| join(',') }}"
+    state: present
+
+- name: Install NRPE plugins
+  copy:
+    src: nrpe_plugins/
+    dest: /usr/lib/nagios/plugins/
+    mode: 0755
+
+- name: Install plugins from git clone
+  git:
+    repo: "{{ item.repo }}"
+    clone: yes
+    dest: "{{ item.dest }}"
+    depth: 1
+  with_items: "{{ nagios_plugins_repos }}"
+
+- name: configure nagios nrpe.cfg client
+  template:
+    src: nrpe.cfg.j2
+    dest: /etc/nagios/nrpe.cfg
+  notify:
+    - restart nagios-nrpe-server
+
+- name: Make sure nagios-nrpe-server is started and enabled to autostart
+  service:
+    name: "{{ common_nrpe_service }}"
+    state: started
+    enabled: yes
+
+- name: lineinfile - configure sudoers to allow check_linux_stats.pl permissions
+  lineinfile:
+    dest: "{{ common_sudoers_file }}"
+    regexp: "{{ item.src }}"
+    line: "{{ item.value }}"
+  with_items:
+    - { src: "^nagios ALL=" , value: "nagios ALL=(root) NOPASSWD:{{ common_nagios_plugins_dir }}/check_linux_stats.pl" }

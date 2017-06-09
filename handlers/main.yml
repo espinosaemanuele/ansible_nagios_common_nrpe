@@ -1,0 +1,7 @@
+---
+# file: handlers/main.yml
+
+- name: restart nagios-nrpe-server
+  service:
+    name: "{{ common_nrpe_service }}"
+    state: restarted

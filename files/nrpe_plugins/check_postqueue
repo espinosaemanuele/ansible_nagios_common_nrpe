@@ -1,0 +1,67 @@
+#!/bin/bash
+
+#################################################################
+# Creation: Edouard Lamoine
+# Last Modification: 18 mai 2015
+# This script is checking the localhost postfix queue
+#
+# WARNING: This plugin won't work properly if Postfix is not running.
+#
+# USAGE: ./check_postqueue -w WARNING_NUMBER -c CRITICAL_NUMBER
+#
+# ex: ./check_postqueue -w 5000 -c 10000
+#
+#################################################################
+
+#Memo for Nagios outputs
+#STATE_OK=0
+#STATE_WARNING=1
+#STATE_CRITICAL=2
+#STATE_UNKNOWN=3
+
+while getopts w:c: option
+do
+case "${option}"
+in
+w) WARNING=${OPTARG};;
+c) CRITICAL=${OPTARG};;
+esac
+done
+
+
+if ! ps aux | grep "postfix"|grep -v grep > /dev/null; then
+echo "Postfix service is not running, please start Postfix."
+exit 3
+fi
+
+
+if [[ ! $WARNING || ! $CRITICAL ]]; then
+echo "Error: please specify warning and critical thresholds. ex: ./check_postqueue -w 5000 -c 10000"
+exit 3
+fi
+
+if [ $WARNING -gt $CRITICAL ]; then
+echo "Error: Warning number is greater than Critical number. Please set your input correctly. ex: ./check_postqueue -w 5000 -c 10000"
+exit 3
+fi
+
+QUEUE=$((postqueue -p | tail -n 1 | cut -d' ' -f5) 2>&- )
+QUEUE=${QUEUE//[!0-9]}
+
+if [[ ! $QUEUE ]]; then
+QUEUE=0
+fi
+
+if [ $QUEUE -gt $CRITICAL ]; then
+echo "CRITICAL - $QUEUE mails in Postfix queue"
+exit 2
+fi
+
+if [ $QUEUE -gt $WARNING ]; then
+echo "WARNING - $QUEUE mails in Postfix queue"
+exit 1
+fi
+
+echo "OK - $QUEUE mails in queue."
+exit 0
+

@@ -21,6 +21,7 @@
     dest: "{{ item.dest }}"
     depth: 1
   with_items: "{{ nagios_plugins_repos }}"
+  when: common_nagios_nrpe_clone_plugins
 
 - name: configure nagios nrpe.cfg client
   template:

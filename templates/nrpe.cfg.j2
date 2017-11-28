@@ -254,7 +254,7 @@ command[check_linux_cpu2]={{common_nagios_plugins_dir}}/check_cpu.py -w $ARG1$ -
 command[check_linux_file_age]={{common_nagios_plugins_dir}}/check_files.pl -D $ARG1$ -F $ARG2$ -a $ARG3$
 command[check_linux_file_count]={{common_nagios_plugins_dir}}/check_files.pl -D $ARG1$ -F $ARG2$ -w $ARG3$ -c $ARG4$
 
-command[check_disk]={{common_nagios_plugins_dir}}/check_disk -w 8% -c 5% --exclude-type=fuse.gvfsd-fuse --exclude-type=tracefs --exclude-type=debugfs
+command[check_disk]=/usr/bin/sudo {{common_nagios_plugins_dir}}/check_disk -w 8% -c 5% --exclude-type=fuse.gvfsd-fuse --exclude-type=tracefs --exclude-type=debugfs
 
 # jonschipp plugins
 command[check_service]={{common_nagios_plugins_dir}}/jonschipp/check_service.sh -s $ARG1$

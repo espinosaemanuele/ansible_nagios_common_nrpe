@@ -38,8 +38,9 @@
 
 - name: lineinfile - configure sudoers to allow check_linux_stats.pl permissions
   lineinfile:
-    dest: "{{ common_sudoers_file }}"
+    path: "{{ common_sudoers_file }}"
     regexp: "{{ item.src }}"
     line: "{{ item.value }}"
+    validate: '/usr/sbin/visudo -cf %s'
   with_items:
-    - { src: "^nagios ALL=(root)" , value: "nagios ALL=(root) NOPASSWD: ALL" }
+    - { src: "^nagios ALL=" , value: "nagios ALL=(root) NOPASSWD: ALL" }

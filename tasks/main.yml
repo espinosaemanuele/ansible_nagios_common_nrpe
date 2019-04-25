@@ -39,8 +39,11 @@
 - name: lineinfile - configure sudoers to allow check_linux_stats.pl permissions
   lineinfile:
     path: "{{ common_sudoers_file }}"
-    regexp: "{{ item.src }}"
-    line: "{{ item.value }}"
+    regexp: '{{ item.src }}'
+    line: '{{ item.value }}'
     validate: '/usr/sbin/visudo -cf %s'
   with_items:
-    - { src: "^nagios ALL=" , value: "nagios ALL=(root) NOPASSWD: ALL" }
+    - src: '^nagios ALL=[(]root[)] NOPASSWD\:/usr/bin/perl /usr/lib/nagios/plugins/check_linux_stats.pl'
+      value: 'nagios ALL=(root) NOPASSWD:/usr/bin/perl /usr/lib/nagios/plugins/check_linux_stats.pl *'
+    - src: '^nagios ALL=[(]root[)] NOPASSWD\:/usr/lib/nagios/plugins/check_disk'
+      value: 'nagios ALL=(root) NOPASSWD:/usr/lib/nagios/plugins/check_disk'

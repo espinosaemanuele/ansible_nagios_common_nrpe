@@ -4,13 +4,16 @@ import sys
 import os
 import glob
 
+# argumento de ubicacion del archivo
+path_file = sys.argv[1]
+# argumento de text a comparar
+text = sys.argv[2]
 
-path = sys.argv[1]
-# Si se quisiera se poder pasar el texto a buscar como un segundo argumento
-#text = sys.argv[2]
-text="""Date;Time;Wind Direction, *;RH, %;Rain, mm;Accumulated Rain, mm;Pressure, Hpa;Dew Point, *C;Gust Speed, Km/h;Temperature, *C;Wind Speed, Km/h;Solar Radiation, W/m2;Battery, V
-"""
+# chequear si el directorio existe si no termina el script
 
+if (os.path.isdir(path_file) != True) :
+	print ("No se encontro la carpeta")
+	sys.exit(2)
 
 #funcion que busca el archivo mas reciente de extencion .csv
 def file_csv(filepath2):
@@ -23,7 +26,9 @@ file_to_read = file_csv(path_file)
 # funcion que lee la primera linea del archivo de texto
 def readtext(filepath):
 	op = open(filepath, "r")
-	data = op.readline()
+	rd = op.readline()
+	stp = rd.rstrip('\n')
+	data = stp.replace(';','').replace(' ','')
 	return data
 	op.close()
 
@@ -35,6 +40,8 @@ if text == firstline:
 	sys.exit(0)
 elif text != firstline:
 	print ("CRITICAL - sensors order is wrong")
+	print firstline
+	print text
 	sys.exit(2)
 else:
 	print ("UNKNOWN ERROR")

@@ -254,7 +254,7 @@ command[check_linux_cpu2]={{common_nagios_plugins_dir}}/check_cpu.py -w $ARG1$ -
 command[check_linux_file_age]={{common_nagios_plugins_dir}}/check_files.pl -D $ARG1$ -F $ARG2$ -a $ARG3$ -w '<1' -c '<1'
 command[check_linux_file_age_new]={{common_nagios_plugins_dir}}/check_files.pl -D $ARG1$ -F $ARG2$ -a $ARG3$ -w '>1' -c '>1'
 command[check_linux_file_count]={{common_nagios_plugins_dir}}/check_files.pl -D $ARG1$ -F $ARG2$ -w $ARG3$ -c $ARG4$
-command[check_linux_file_content]=python {{common_nagios_plugins_dir}}/check_linux_file_content.py $ARG1$
+command[check_linux_file_content]=python {{common_nagios_plugins_dir}}/check_linux_file_content.py $ARG1$ $ARG2$
 
 command[check_disk]=/usr/bin/sudo {{common_nagios_plugins_dir}}/check_disk -w 8% -c 5% --exclude-type=fuse.gvfsd-fuse --exclude-type=tracefs --exclude-type=debugfs
 

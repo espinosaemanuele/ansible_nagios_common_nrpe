@@ -5,3 +5,4 @@
   service:
     name: "{{ common_nrpe_service }}"
     state: restarted
+    sleep: 1

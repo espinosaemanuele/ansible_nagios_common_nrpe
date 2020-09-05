@@ -3,10 +3,21 @@
 
 - include: multi_os.yml
 
-- name: install packages
-  package:
+- name: main | Install dependencies Debian
+  apt: 
     name: "{{ common_packages| join(',') }}"
     state: present
+    cache_valid_time: 43200
+    #force: yes
+  environment:
+    DEBIAN_FRONTEND: noninteractive
+  when: ansible_os_family == 'Debian'
+
+- name: main | Install dependencies RedHat
+  package: 
+    name: "{{ common_packages| join(',') }}"
+    state: present
+  when: ansible_os_family == 'RedHat'
 
 - name: Install NRPE plugins
   copy:

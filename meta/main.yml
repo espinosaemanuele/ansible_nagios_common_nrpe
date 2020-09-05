@@ -1,0 +1,34 @@
+---
+galaxy_info:
+  author: Pablo Estigarribia
+  description: Install and setup nrpe agent on linux
+  company: coffeeitworks
+
+  license: BSD
+
+  min_ansible_version: 2.5
+
+  platforms:
+    - name: EL
+      versions:
+        - 8
+        - 7
+
+    - name: Ubuntu
+      versions:
+        - xenial
+        - bionic
+        - Focal
+
+    - name: Debian
+      versions:
+        - stretch
+        - Buster
+        - Bullseye
+
+  galaxy_tags:
+    - monitoring
+
+dependencies:
+  - role: geerlingguy.repo-epel
+    when: ansible_os_family == 'RedHat'

@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/pablodav/ansible_nagios_common_nrpe.svg?branch=master)](https://travis-ci.org/pablodav/ansible_nagios_common_nrpe)
+
 # Vars for group/vars (probably you will use all group here)
 
 You can configure the servers to listen with one of two vars: 

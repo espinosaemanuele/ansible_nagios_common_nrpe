@@ -4,13 +4,13 @@
 ---
 
 common_packages:
-  - chrony
+  - ntp
   - nagios-plugins
   - nagios-plugins-nrpe
   - nrpe
-  - nagios-plugins-users
-  - nagios-plugins-load
-  - nagios-plugins-swap
+  - nagios-plugins-users 
+  - nagios-plugins-load 
+  - nagios-plugins-swap 
   - nagios-plugins-disk
   - nagios-plugins-procs
   - perl-Sys-Statistics-Linux # For check_linux_stats.pl

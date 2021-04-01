@@ -19,11 +19,14 @@
     state: present
   when: ansible_os_family == 'RedHat'
 
+#TODO: copying the plugins with synchronize will not work with podman
+# keeping the plugins in files in the role is not the best and smartest option
+# Should consider moving the files to another repository.
 - name: Install NRPE plugins
   copy:
-    src: nrpe_plugins/
-    dest: /usr/lib/nagios/plugins/
-    mode: 0755
+      src: nrpe_plugins/
+      dest: /usr/lib/nagios/plugins/
+      mode: 0755
 
 - name: Install plugins from git clone
   git:
@@ -34,6 +37,8 @@
   with_items: "{{ nagios_plugins_repos }}"
   when: common_nagios_nrpe_clone_plugins
 
+# TODO: Currently all the plugins configuration are in the nrpe.cfg file instead of nrpe.d dir with individual files.
+# Should consider moving the files to another repository.
 - name: configure nagios nrpe.cfg client
   template:
     src: nrpe.cfg.j2

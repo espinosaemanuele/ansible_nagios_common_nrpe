@@ -1,6 +1,6 @@
 ---
 galaxy_info:
-  author: Pablo Estigarribia
+  author: pablodav
   description: Install and setup nrpe agent on linux
   company: coffeeitworks
 

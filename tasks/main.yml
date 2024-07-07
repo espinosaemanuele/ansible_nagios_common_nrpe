@@ -1,7 +1,7 @@
 ---
 # file: tasks/main.yml
 
-- include: multi_os.yml
+- import_tasks: multi_os.yml
 
 - name: main | Install dependencies Debian
   apt: 
